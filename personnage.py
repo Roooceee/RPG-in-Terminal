@@ -25,6 +25,12 @@ class Personnage:
         print(f"Force : {self.force}")
         espace(1)
 
+    # Permet d'afficher sa santé/santé max
+    def afficher_sante(self):
+        espace(1)
+        print(f"Santé de : {self.nom} est de {self.pdv}/{self.pdvMax}")
+        espace(1)
+
     # methode attaquer
     def attaquer(self, cible):
         if self.pdv > 0:
@@ -40,7 +46,8 @@ class Personnage:
     def recevoir_degats(self, degats):
         self.pdv -= degats
         if self.pdv > 0:
-            print(f"{self.nom} a reçu {degats} pts de dégats. Il lui reste {self.pdv} poins de vie.")
+            print(f"{self.nom} a reçu {degats} pts de dégats.")
+            self.afficher_sante()
         else:
             self.pdv = 0
             print(f"{self.nom} est mort.")
@@ -61,6 +68,7 @@ class Personnage:
         print("Inventaire : ")
         for i in self.inventaireSoins:
             print(f"{i.libelle} x {self.inventaireSoins[i]}")
+        espace(1)
 
     # Permet de choisir dans l'inventaire du perso
     def choisir_dans_inventaire_potion(self):
@@ -71,6 +79,7 @@ class Personnage:
         choixUserInventaire=""
 
         while choixUserInventaire !="q":
+            espace(1)
             print("Veuillez choisir une Potion ou taper 'q'pour quitter")
             self.afficher_inventaire_potion()
 
@@ -83,29 +92,35 @@ class Personnage:
                     self.afficher_inventaire_potion()
                     break
                 else:
-                    print(f"Vous n'avez plus : {objet.libelle} dans votre inventaire")
+                    print(f"Action Imposible ! Vous n'avez plus : {objet.libelle} dans votre inventaire")
             elif(choixUserInventaire=="q"):
                 print("Fermeture de l'inventaire de soin")
             else:
                 print("Choix Invalide")
+                espace(1)
 
     
     def enlever_objet_soin(self,pObjetSoin):
+        espace(1)
         if self.inventaireSoins[pObjetSoin]>0 :
             self.inventaireSoins[pObjetSoin]-= 1
             print(f"Il ne vous reste plus que : {self.inventaireSoins[pObjetSoin]} {pObjetSoin.libelle}")
+        espace(1)
 
     def utliser_objet_soin(self,pObjetSoin):
+        espace(1)
         print(f"Vous venez d'utiliser : {pObjetSoin.libelle}")
         self.se_soigner(pObjetSoin.puissance)
         self.enlever_objet_soin(pObjetSoin)
+        espace(1)
 
+    # Methode créer uniquement pour tester se soigner
     def perdre_PV(self,pPv):
         self.pdv -= pPv
     
-
     # methode se soigner qui prend en parametre un objet potion
     def se_soigner(self,PV):
+        espace(1)
         if self.pdv+(PV) < self.pdvMax :
             self.pdv += PV
             print(f"Vous venez de récuperer {PV} sur {self.pdvMax}")
@@ -114,3 +129,4 @@ class Personnage:
         else:
             self.pdv = self.pdvMax
             print(f"Vous avez atteint votre santé maximum soit {self.pdvMax}")
+        espace(1)
