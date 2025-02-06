@@ -1,8 +1,15 @@
 from personnage import Personnage
-from utils import espace
-import time,random
+from combat import lancer_combat
+import random
 
-unPersonnageTest = Personnage('Seb',10,100,20)
-unPersonnageTest.perdre_PV(30)
-unPersonnageTest.choisir_dans_inventaire_potion()
-unPersonnageTest.afficher_informations()
+# unPersonnageTest = Personnage('Seb',10,100,20)
+# unEnemi = Personnage('Gobelin',2,30,3)
+
+# lancer_combat(unPersonnageTest,unEnemi)
+
+chiffrerandom = random.randint(1,10)
+print(chiffrerandom)
+if(chiffrerandom>3):
+    print("Fuite réussi")
+else:
+    print("Echec de la fuite !")

@@ -18,40 +18,45 @@ class Personnage:
     #Permet d'afficher les infos du perso   
     def afficher_informations(self):
         espace(1)
+        time.sleep(1)
         print(f"Nom : {self.nom}")
         print(f"Niveau : {self.niveau}")
-        print(f"Points de vie : {self.pdv}")
-        print(f"Point de vie Max : {self.pdvMax}")
+        print(f"Points de vie : {self.pdv}/{self.pdvMax}")
         print(f"Force : {self.force}")
         espace(1)
 
     # Permet d'afficher sa santé/santé max
     def afficher_sante(self):
         espace(1)
+        time.sleep(1)
         print(f"Santé de : {self.nom} est de {self.pdv}/{self.pdvMax}")
         espace(1)
 
     # methode attaquer
     def attaquer(self, cible):
+        espace(1)
+        time.sleep(1)
         if self.pdv > 0:
                 if cible.pdv > 0:
                     print(f"{self.nom} attaque {cible.nom} avec une force de {self.force}.")
                     cible.recevoir_degats(self.force)
                     if(cible.pdv == 0):
-                        self.gain_niveau()
+                        print(f"{self.nom} à gagné ! {cible.nom} est mort !")
+                        espace(1)
+                        
                 else:
                     print(f"{self.nom} ne peut pas attaquer {cible.nom} car {cible.nom} est mort.")
 
     # methode recevoir degat
     def recevoir_degats(self, degats):
+        espace(1)
+        time.sleep(1)
         self.pdv -= degats
         if self.pdv > 0:
             print(f"{self.nom} a reçu {degats} pts de dégats.")
             self.afficher_sante()
         else:
             self.pdv = 0
-            print(f"{self.nom} est mort.")
-            return True
 
     # methode de gain de niveau
     def gain_niveau(self):
@@ -65,8 +70,10 @@ class Personnage:
     # Permet d'afficher l'inventaire du perso
     def afficher_inventaire_potion(self):
         espace(1)
+        time.sleep(1)
         print("Inventaire : ")
         for i in self.inventaireSoins:
+            time.sleep(1)
             print(f"{i.libelle} x {self.inventaireSoins[i]}")
         espace(1)
 
@@ -80,7 +87,10 @@ class Personnage:
 
         while choixUserInventaire !="q":
             espace(1)
-            print("Veuillez choisir une Potion ou taper 'q'pour quitter")
+            time.sleep(1)
+            print("Veuillez choisir une Potion ou taper 'q' pour quitter")
+            espace(1)
+            time.sleep(1)
             self.afficher_inventaire_potion()
 
             choixUserInventaire = str(input("Pour choisir une potion veuillez réecrire son libelle : "))
@@ -92,10 +102,16 @@ class Personnage:
                     self.afficher_inventaire_potion()
                     break
                 else:
+                    espace(1)
+                    time.sleep(1)
                     print(f"Action Imposible ! Vous n'avez plus : {objet.libelle} dans votre inventaire")
             elif(choixUserInventaire=="q"):
+                espace(1)
+                time.sleep(1)
                 print("Fermeture de l'inventaire de soin")
             else:
+                espace(1)
+                time.sleep(1)
                 print("Choix Invalide")
                 espace(1)
 
