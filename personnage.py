@@ -4,14 +4,17 @@ from utils import espace
 from potion import PotionNiveau1,PotionNiveau2
 
 class Personnage:
-    def __init__(self, nom, niveau = 1, pdv = 50, force = 1):
+    def __init__(self, nom, niveau = 1, pdv = 50, force = 5, vitesse=10,experience=0):
         self.nom = nom
         self.niveau = niveau
         self.pdvMax = pdv
         self.pdv = pdv
         self.force = force
+        self.vitesse = vitesse
+        self.niveau_max = 30
+        self.experience = experience
         self.inventaireSoins = {
-            PotionNiveau1:2,
+            PotionNiveau1:0,
             PotionNiveau2:0
             }
                            
@@ -20,9 +23,12 @@ class Personnage:
         espace(1)
         time.sleep(1)
         print(f"Nom : {self.nom}")
-        print(f"Niveau : {self.niveau}")
+        print(f"Niveau : {self.niveau} / {self.niveau_max}")
         print(f"Points de vie : {self.pdv}/{self.pdvMax}")
         print(f"Force : {self.force}")
+        print(f"Precision : {self.precision} / {self.precision_max}")
+        print(f"Vitesse : {self.vitesse}")
+        self.afficher_experience_sur_experience_necessaire()
         espace(1)
 
     # Permet d'afficher sa santé/santé max
@@ -37,15 +43,15 @@ class Personnage:
         espace(1)
         time.sleep(1)
         if self.pdv > 0:
+                
                 if cible.pdv > 0:
-                    print(f"{self.nom} attaque {cible.nom} avec une force de {self.force}.")
                     cible.recevoir_degats(self.force)
                     if(cible.pdv == 0):
+
                         print(f"{self.nom} à gagné ! {cible.nom} est mort !")
                         espace(1)
-                        
-                else:
-                    print(f"{self.nom} ne peut pas attaquer {cible.nom} car {cible.nom} est mort.")
+        else:
+            print(f"{self.nom} ne peut pas attaquer {cible.nom} car {cible.nom} est mort.")
 
     # methode recevoir degat
     def recevoir_degats(self, degats):
@@ -58,16 +64,36 @@ class Personnage:
         else:
             self.pdv = 0
 
+    def afficher_experience_sur_experience_necessaire(self):
+        print(f"Experience : {self.experience}/{self.experience_necessaire_niveau_suivant()}")
+
+    # methode qui permet de gagner de l'experience
+    def gagner_experience(self,experience):
+        self.experience += experience
+        self.gain_niveau()
+
+    # methode experience necessaire passage de niveau 
+    def experience_necessaire_niveau_suivant(self):
+        experience_necessaire_niveau_suivant = self.niveau * 100
+        return experience_necessaire_niveau_suivant
+
     # methode de gain de niveau
     def gain_niveau(self):
-        self.niveau += 1
-        self.pdv += 50
-        self.pdvMax +=50
-        self.force += 5
-        print("Vous venez de gagner un niveau ! Félicitations !")
-        self.afficher_informations()
 
-    # Permet d'afficher l'inventaire du perso
+        if self.niveau <= self.niveau_max:
+            while self.experience >= self.experience_necessaire_niveau_suivant():
+                self.experience -= self.experience_necessaire_niveau_suivant()  # On soustrait l'expérience nécessaire pour passer au niveau suivant
+                self.niveau += 1
+                self.pdv = int(self.pdv*1.2)
+                self.pdvMax = int(self.pdvMax*1.2)
+                self.force = int(self.pdv*1.2)
+                print(f"Félicitations ! Vous venez de passer au niveau : {self.niveau}")
+                self.afficher_difference_caracteristique_gain_niveau()
+                self.afficher_informations()
+        else:
+            print("niveau max déjà atteint !")
+
+    # Permet d'afficher l'inventaire de soins du perso
     def afficher_inventaire_potion(self):
         espace(1)
         time.sleep(1)
